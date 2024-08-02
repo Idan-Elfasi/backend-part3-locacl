@@ -3,109 +3,58 @@ import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 
-import { loggerService } from './services/logger.service.js'
+import path, { dirname } from 'path'
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
+
 import { toyService } from './services/toy.service.js'
-import { toyRoutes } from './api/toy/toy.routes.js'
-import { userRoutes } from './api/user/user.routes.js'
-import { authRoutes } from './api/auth/auth.routes.js'
+
+import { loggerService } from './services/logger.service.js'
+loggerService.info('server.js loaded...')
 
 const app = express()
 
-const corsOptions = {
-  origin: [
-    'http://127.0.0.1:8080',
+// App Configuration
+app.use(express.static('public'))
+app.use(cookieParser()) // for res.cookies
+app.use(express.json()) // for req.body
+
+
+if (process.env.NODE_ENV === 'production') {
+  // Express serve static files on production environment
+  app.use(express.static(path.resolve(__dirname, 'public')))
+  console.log('__dirname: ', __dirname)
+} else {
+  const corsOptions = {
+    origin: [
+      'http://127.0.0.1:8080',
     'http://localhost:8080',
 
     'http://localhost:5173',
     'http://127.0.0.1:5173',
-
+    
     'http://localhost:5174',
     'http://127.0.0.1:5174',
   ],
   credentials: true,
 }
-// App Configuration
-app.use(express.static('public'))
-app.use(cookieParser()) // for res.cookies
-app.use(express.json()) // for req.body
-app.use(cors(corsOptions)) //Can get axios requests from  A different port than the port the backend is on
+app.use(cors(corsOptions))//Can get axios requests from  A different port than the port the backend is on
+}
+
+
+import { toyRoutes } from './api/toy/toy.routes.js'
+import { userRoutes } from './api/user/user.routes.js'
+import { authRoutes } from './api/auth/auth.routes.js'
 
 //routs 
 app.use('/api/auth', authRoutes)
 app.use('/api/user', userRoutes)
 app.use('/api/toy', toyRoutes)
 
-// **************** Toys API ****************:
-// GET toys
-app.get('/api/toy', (req, res) => {
-  const { filterBy = {}, sortBy = {}, pageIdx } = req.query
-  toyService.query(filterBy, sortBy, pageIdx)
-    .then(toys => {
-      res.send(toys)
-    })
-    .catch(err => {
-      loggerService.error('Cannot load toys', err)
-      res.status(400).send('Cannot load toys')
-    })
-})
-app.get('/api/toy/:toyId', (req, res) => {
-  const { toyId } = req.params
-  toyService.get(toyId)
-    .then(toy => {
-      res.send(toy)
-    })
-    .catch(err => {
-      loggerService.error('Cannot get toy', err)
-      res.status(400).send(err)
-    })
-})
 
-app.post('/api/toy', (req, res) => {
-  const { name, price, labels } = req.body
-  const toy = {
-    name,
-    price: +price,
-    labels,
-  }
-  toyService.save(toy)
-    .then(savedToy => {
-      res.send(savedToy)
-    })
-    .catch(err => {
-      loggerService.error('Cannot add toy', err)
-      res.status(400).send('Cannot add toy')
-    })
-})
-
-app.put('/api/toy', (req, res) => {
-  const { name, price, _id, labels } = req.body
-  const toy = {
-    _id,
-    name,
-    price: +price,
-    labels,
-  }
-  toyService.save(toy)
-    .then(savedToy => {
-      res.send(savedToy)
-    })
-    .catch(err => {
-      loggerService.error('Cannot update toy', err)
-      res.status(400).send('Cannot update toy')
-    })
-})
-
-app.delete('/api/toy/:toyId', (req, res) => {
-  const { toyId } = req.params
-  toyService.remove(toyId)
-    .then(msg => {
-      res.send({ msg, toyId })
-    })
-    .catch(err => {
-      loggerService.error('Cannot delete toy', err)
-      res.status(400).send('Cannot delete toy, ' + err)
-    })
-})
 
 // Fallback
 
