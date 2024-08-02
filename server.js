@@ -10,7 +10,6 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 
-import { toyService } from './services/toy.service.js'
 
 import { loggerService } from './services/logger.service.js'
 loggerService.info('server.js loaded...')
