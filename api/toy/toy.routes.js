@@ -1,5 +1,7 @@
 import express from 'express'
-import { requireAuth, requireAdmin } from '../../middlewares/requireAuth.middleware.js'
+import { requireAuth } from '../../middlewares/requireAuth.middleware.js'
+import { log } from '../../middlewares/logger.middlewares.js'
+
 import { log } from '../../middlewares/logger.middleware.js'
 import { getToys, getToyById, addToy, updateToy, removeToy, addToyMsg, removeToyMsg } from './toy.controller.js'
 
