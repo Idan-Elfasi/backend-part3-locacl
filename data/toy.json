@@ -1,7 +1,7 @@
 [
     {
         "name": "bgfbg",
-        "price": 43,
+        "price": 42,
         "labels": [
             "Doll",
             "Baby",
@@ -18,7 +18,7 @@
     },
     {
         "name": "bg",
-        "price": 333,
+        "price": 332,
         "labels": [
             "Box game",
             "Baby",
