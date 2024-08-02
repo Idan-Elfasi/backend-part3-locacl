@@ -5,6 +5,9 @@ import cookieParser from 'cookie-parser'
 
 import { loggerService } from './services/logger.service.js'
 import { toyService } from './services/toy.service.js'
+import { toyRoutes } from './api/toy/toy.routes.js'
+import { userRoutes } from './api/user/user.routes.js'
+import { authRoutes } from './api/auth/auth.routes.js'
 
 const app = express()
 
@@ -27,6 +30,10 @@ app.use(cookieParser()) // for res.cookies
 app.use(express.json()) // for req.body
 app.use(cors(corsOptions)) //Can get axios requests from  A different port than the port the backend is on
 
+//routs 
+app.use('/api/auth', authRoutes)
+app.use('/api/user', userRoutes)
+app.use('/api/toy', toyRoutes)
 
 // **************** Toys API ****************:
 // GET toys
