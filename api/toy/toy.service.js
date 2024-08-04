@@ -14,10 +14,16 @@ export const toyService = {
 	removeToyMsg,
 }
 
-async function query(filterBy = { txt: '' }) {
+async function query(filterBy) {
+    // filterBy={
+    //     txt:'lidor'
+    // }
 	try {
 		const criteria = {
-			name: { $regex: filterBy.txt, $options: 'i' },
+			name: { $regex: filterBy.txt, $options: 'i' }
+            // labels:filterBy.labels||[],
+            // type:sortBy.type||'',
+            // desc:sortBy.desc||1,
 		}
 		const collection = await dbService.getCollection('toy')
 		var toys = await collection.find(criteria).toArray()

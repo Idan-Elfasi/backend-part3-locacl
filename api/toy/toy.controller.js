@@ -3,10 +3,10 @@ import { loggerService } from '../../services/logger.service.js'
 
 
 export async function getToys(req, res) {
-    console.log('hi');
+    console.dir(req.query);
     try {
         const filterBy = {
-            txt: req.query.txt || '',
+            txt: req.query.filterBy.txt || '',
         }
         const toys = await toyService.query(filterBy)
         res.json(toys)
@@ -44,6 +44,7 @@ export async function addToy(req, res) {
 export async function updateToy(req, res) {
     try {
         const toy = req.body
+        console.log( `requaest edit body : ${toy}`);
         const updatedToy = await toyService.update(toy)
         res.json(updatedToy)
     } catch (err) {
