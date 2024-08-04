@@ -3,6 +3,7 @@ import { loggerService } from '../../services/logger.service.js'
 
 
 export async function getToys(req, res) {
+    console.log('hi');
     try {
         const filterBy = {
             txt: req.query.txt || '',
