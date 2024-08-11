@@ -1,4 +1,11 @@
+// import dotenv from 'dotenv'
+// dotenv.config()
+
 export default {
-    dbURL: 'mongodb+srv://theUser:thePass@cluster0-klgzh.mongodb.net/test?retryWrites=true&w=majority',
+    dbURL: 'mongodb+srv://idanelfasi12:bbM4JEfnN1CnqLjQ@mistertoyatlas.ranhm.mongodb.net/',
     dbName: 'misterToy_db',
 }
+// export default{
+//     dbURL:process.env.DB_URL
+//     dbName:process.env.DB_NAME
+// }
