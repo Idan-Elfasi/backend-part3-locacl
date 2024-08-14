@@ -3,14 +3,14 @@ import { loggerService } from '../../services/logger.service.js'
 
 
 export async function getToys(req, res) {
-    console.dir(req.query);
     try {
-        const filterBy = {
-            txt: req.query.filterBy.txt || '',
-        }
-        const toys = await toyService.query(filterBy)
+        console.dir(req.query);
+        const { filterBy = {txt:'',inStock:'',pageIdx:0,labels:[]}, sortBy = {type:'',desc:1},pageIdx } = req.query
+
+        const toys = await toyService.query(filterBy,sortBy,pageIdx)
         res.json(toys)
-    } catch (err) {
+    }
+     catch (err) {
         loggerService.error('Failed to get toys', err)
         res.status(500).send({ err: 'Failed to get toys' })
     }
@@ -31,12 +31,12 @@ export async function addToy(req, res) {
     const { loggedinUser } = req
 
     try {
-        const toy = req.body
-        toy.owner = loggedinUser
-        const addedToy = await toyService.add(toy)
-        res.json(addedToy)
+            const toy = req.body
+            toy.owner = loggedinUser
+            const addedToy = await toyService.add(toy)
+            res.json(addedToy)
     } catch (err) {
-        loggerService.error('Failed to add toy', err)
+        loggerService.error('Failed to add toy,is not the admin', err)
         res.status(500).send({ err: 'Failed to add toy' })
     }
 }
