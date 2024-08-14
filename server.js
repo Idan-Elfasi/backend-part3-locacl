@@ -24,11 +24,12 @@ app.use(cookieParser()) // for res.cookies
 app.use(express.json()) // for req.body
 
 
-// if (process.env.NODE_ENV === 'production') {
-  //   // Express serve static files on production environment
-  //   app.use(express.static(path.resolve(__dirname, 'public')))
-  //   console.log('__dirname: ', __dirname)
-  // } else {
+if (process.env.NODE_ENV === 'production') {
+    // Express serve static files on production environment
+    app.use(express.static(path.resolve(__dirname, 'public')))
+    console.log('__dirname: ', __dirname)
+  }
+   else {
     const corsOptions = {
       origin: [
         'http://127.0.0.1:8080',
@@ -44,7 +45,7 @@ app.use(express.json()) // for req.body
     }
     
     app.use(cors(corsOptions))//Can get axios requests from  A different port than the port the backend is on
-    
+  } 
     
 import { toyRoutes } from './api/toy/toy.routes.js'
 import { userRoutes } from './api/user/user.routes.js'
