@@ -10,8 +10,8 @@ export const userRoutes = express.Router()
 // userRoutes.use(requireAuth)
 
 userRoutes.get('/', getUsers)
-userRoutes.get('/:id', getUser)
-userRoutes.put('/:id',  updateUser)
+userRoutes.get('/:id', requireAuth, getUser)
+userRoutes.put('/:id',requireAuth,  updateUser)
 
 // userRoutes.put('/:id',  requireAuth, updateUser)
 userRoutes.delete('/:id',  requireAuth, requireAdmin, deleteUser)

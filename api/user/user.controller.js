@@ -3,7 +3,7 @@ import { loggerService } from '../../services/logger.service.js'
 
 export async function getUser(req, res) {
     try {
-        const user = await userService.getById(req.params.id)
+        const user = await userService.getById(req.params._id)
         res.send(user)
     } catch (err) {
         loggerService.error('Failed to get user', err)
@@ -27,7 +27,7 @@ export async function getUsers(req, res) {
 
 export async function deleteUser(req, res) {
     try {
-        await userService.remove(req.params.id)
+        await userService.remove(req.params._id)
         res.send({ msg: 'Deleted successfully' })
     } catch (err) {
         loggerService.error('Failed to delete user', err)

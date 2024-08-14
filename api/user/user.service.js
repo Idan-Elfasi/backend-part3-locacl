@@ -55,7 +55,8 @@ async function getByUsername(username) {
 async function remove(userId) {
 	try {
 		const collection = await dbService.getCollection('user')
-		await collection.deleteOne({ _id: ObjectId.createFromHexString(userId) })
+		const decreadeUsers = await collection.deleteOne({ _id: ObjectId.createFromHexString(userId) })
+		return decreadeUsers
 	} catch (err) {
 		loggerService.error(`cannot remove user ${userId}`, err)
 		throw err
@@ -92,6 +93,7 @@ async function add(user) {
 			password: user.password,
 			fullname: user.fullname,
 			score: user.score || 0,
+			isAdmin:false
 		}
 		const collection = await dbService.getCollection('user')
 		await collection.insertOne(userToAdd)
